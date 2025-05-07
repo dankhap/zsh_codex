@@ -48,6 +48,9 @@ class OpenAIClient(BaseClient):
             base_url=self.config.get("base_url", "https://api.openai.com/v1"),
             organization=self.config.get("organization"),
         )
+        self.remove_think = self.config.get("remove_think", False)
+        if self.remove_think:
+            self.system_prompt = self.system_prompt + " \\no_think"
 
     def get_completion(self, full_command: str) -> str:
         response = self.client.chat.completions.create(
@@ -58,7 +61,13 @@ class OpenAIClient(BaseClient):
             ],
             temperature=float(self.config.get("temperature", 1.0)),
         )
-        return response.choices[0].message.content
+        content = response.choices[0].message.content
+        if self.remove_think and content:
+            # remove '<think>' tags and trim whitespace
+            content = content.replace("<think>", "")
+            content = content.replace("</think>", "")
+            content = content.strip()
+        return content
 
 
 class GoogleGenAIClient(BaseClient):
