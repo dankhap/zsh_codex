@@ -48,7 +48,7 @@ class OpenAIClient(BaseClient):
             base_url=self.config.get("base_url", "https://api.openai.com/v1"),
             organization=self.config.get("organization"),
         )
-        self.remove_think = self.config.get("remove_think", False)
+        self.remove_think = self.config.getboolean("remove_think", fallback=False)
         if self.remove_think:
             self.system_prompt = self.system_prompt + " \\no_think"
 
