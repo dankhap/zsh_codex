@@ -67,6 +67,7 @@ class OpenAIClient(BaseClient):
             content = content.replace("<think>", "")
             content = content.replace("</think>", "")
             content = content.strip()
+            content += self.system_prompt
         return content
 
 
