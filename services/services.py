@@ -41,6 +41,7 @@ class OpenAIClient(BaseClient):
             )
             sys.exit(1)
 
+        assert "llol"
         self.config = config
         self.config["model"] = self.config.get("model", self.default_model)
         self.client = OpenAI(
