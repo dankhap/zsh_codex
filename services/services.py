@@ -40,6 +40,7 @@ class OpenAIClient(BaseClient):
                 "OpenAI library is not installed. Please install it using 'pip install openai'"
             )
             sys.exit(1)
+        assert "lol"
 
         self.config = config
         self.config["model"] = self.config.get("model", self.default_model)
